@@ -1,12 +1,21 @@
 const express = require('express')
 const app = express()
+const tarefas = require('./routes/tarefas')
+
 
 const port = 3000
+
+// middleware 
+app.use(express.json())
+
 
 //Rotas 
 app.get('/hello',(req,res) => {
     res.send('Gerenciador de Tarefas App')
 })
+
+app.use('/api/v1/tarefas',tarefas)
+
 
 // app.get('/api/v1/tarefas') - pega todas as tarefas 
 // app.post('/api/v1/tarefas') - cria uma nova tarefa 
