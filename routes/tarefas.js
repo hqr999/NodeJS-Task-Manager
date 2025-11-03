@@ -1,8 +1,9 @@
 const express = require('express');
-const { pegaTodasTarefas } = require('../controllers/tarefas');
+const { pegaTodasTarefas,criaTarefa,atualizaTarefa,pegaTarefa,deletaTarefa } = require('../controllers/tarefas');
 const roteador = express.Router();
 
 
-roteador.route('/').get(pegaTodasTarefas)
+roteador.route('/').get(pegaTodasTarefas).post(criaTarefa)
+roteador.route('/:id').get(pegaTarefa).patch(atualizaTarefa).delete(deletaTarefa)
 
 module.exports = roteador;
