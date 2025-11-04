@@ -3,11 +3,11 @@ const pegaTodasTarefas = (req, res) => {
 }
 
 const criaTarefa = (req, res) => {
-    res.send('tarefa criada')
+    res.json(req.body)
 }
 
 const pegaTarefa = (req, res) => {
-    res.send('pega única tarefa')
+    res.json({id:req.params.id})
 }
 
 const atualizaTarefa = (req, res) => {
