@@ -1,9 +1,12 @@
+const Tarefa = require('../Models/tarefa')
+
 const pegaTodasTarefas = (req, res) => {
     res.send('todos os itens')
 }
 
-const criaTarefa = (req, res) => {
-    res.json(req.body)
+const criaTarefa = async (req, res) => {
+    const tarefa = await Tarefa.create(req.body)
+    res.status(201).json({tarefa})
 }
 
 const pegaTarefa = (req, res) => {
