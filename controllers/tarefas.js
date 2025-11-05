@@ -32,8 +32,22 @@ const pegaTarefa = async (req, res) => {
     }
 }
 
-const atualizaTarefa = (req, res) => {
-    res.send('tarefa atualizada')
+const atualizaTarefa = async (req, res) => {
+    try {
+        const {id:idTarefa} = req.params ;
+        const tarefa = await Tarefa.findOneAndUpdate({_id:idTarefa},req.body,{
+            new:true,
+            runValidators:true,
+        });
+
+        if (!tarefa) {
+            return res.status(404).json({msg:`Nenhuma tarefa com o id: ${idTarefa}`})
+        }
+        res.status(200).json({tarefa})
+    } catch (error) {
+        res.status(500).json({msg:error})
+    }
+    
 }
 
 const deletaTarefa = async (req, res) => {
