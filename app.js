@@ -3,9 +3,21 @@ const app = express()
 const tarefas = require('./routes/tarefas')
 const conexaoBD = require('./BD/connection')
 require('dotenv').config()
+const nEncontardo = require('./middleware/nao-encontrado')
 
 const port = 3000
 
+
+
+// middleware 
+app.use(express.json())
+
+
+//Rotas 
+app.use('/api/v1/tarefas',tarefas)
+app.use(nEncontardo)
+
+//Conexãp com o banco de dados 
 const comecaConexao =  async () => {
     try {
         await conexaoBD(process.env.MONGO_URI)
@@ -16,19 +28,5 @@ const comecaConexao =  async () => {
     }
 }
 
-// middleware 
-app.use(express.json())
-
-
-//Rotas 
-
-
-app.use('/api/v1/tarefas',tarefas)
-
 comecaConexao()
 
-// app.get('/api/v1/tarefas') - pega todas as tarefas 
-// app.post('/api/v1/tarefas') - cria uma nova tarefa 
-// app.get('/api/v1/tarefas/:id') - pega uma única tarefa 
-// app.put('/app/v1/tarefas/:id') - atualiza uma tarefa 
-// app.delete('/app/v1/tarefas/:id') - deleta uma tarefa

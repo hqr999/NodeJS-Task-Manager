@@ -4,6 +4,7 @@ const pegaTodasTarefas = async (req, res) => {
     try {
         const tds_tarefas = await Tarefa.find({})
         res.status(200).json({ tds_tarefas })
+        //res.status(200).json({status: "success", data: {tds_tarefas, numero_elementos: tds_tarefas.length}}) -> outro padrão de resposta
     } catch (error) {
         res.status(500).json({ msg: error })
     }
@@ -32,6 +33,21 @@ const pegaTarefa = async (req, res) => {
     }
 }
 
+
+
+const deletaTarefa = async (req, res) => {
+    try {
+        const { id: idTarefa } = req.params
+        const tarefa = await Tarefa.findByIdAndDelete({ _id: idTarefa })
+        if (!tarefa) {
+            res.status(404).json({ msg: `Nenhuma tarefa com o id: ${idTarefa}` })
+        }
+        res.status(200).json({ tarefa })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
+}
+
 const atualizaTarefa = async (req, res) => {
     try {
         const {id:idTarefa} = req.params ;
@@ -48,19 +64,6 @@ const atualizaTarefa = async (req, res) => {
         res.status(500).json({msg:error})
     }
     
-}
-
-const deletaTarefa = async (req, res) => {
-    try {
-        const { id: idTarefa } = req.params
-        const tarefa = await Tarefa.findByIdAndDelete({ _id: idTarefa })
-        if (!tarefa) {
-            res.status(404).json({ msg: `Nenhuma tarefa com o id: ${idTarefa}` })
-        }
-        res.status(200).json({ tarefa })
-    } catch (error) {
-        res.status(500).json({ msg: error })
-    }
 }
 
 
