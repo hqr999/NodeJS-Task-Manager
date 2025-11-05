@@ -5,12 +5,16 @@ const pegaTodasTarefas = (req, res) => {
 }
 
 const criaTarefa = async (req, res) => {
-    const tarefa = await Tarefa.create(req.body)
-    res.status(201).json({tarefa})
+    try {
+        const tarefa = await Tarefa.create(req.body)
+        res.status(201).json({ tarefa })
+    } catch (err) {
+        res.status(500).json({ msg: err })
+    }
 }
 
 const pegaTarefa = (req, res) => {
-    res.json({id:req.params.id})
+    res.json({ id: req.params.id })
 }
 
 const atualizaTarefa = (req, res) => {
@@ -25,7 +29,7 @@ const deletaTarefa = (req, res) => {
 module.exports = {
     pegaTodasTarefas,
     criaTarefa,
-    pegaTarefa, 
+    pegaTarefa,
     atualizaTarefa,
     deletaTarefa,
 }
