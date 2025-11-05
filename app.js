@@ -21,9 +21,7 @@ app.use(express.json())
 
 
 //Rotas 
-app.get('/hello',(req,res) => {
-    res.send('Gerenciador de Tarefas App')
-})
+
 
 app.use('/api/v1/tarefas',tarefas)
 
