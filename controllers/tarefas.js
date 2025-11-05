@@ -1,7 +1,12 @@
 const Tarefa = require('../Models/tarefa')
 
-const pegaTodasTarefas = (req, res) => {
-    res.send('todos os itens')
+const pegaTodasTarefas = async (req, res) => {
+    try {
+        const tds_tarefas = await Tarefa.find({})
+        res.status(200).json({ tds_tarefas })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
 const criaTarefa = async (req, res) => {
@@ -13,8 +18,18 @@ const criaTarefa = async (req, res) => {
     }
 }
 
-const pegaTarefa = (req, res) => {
-    res.json({ id: req.params.id })
+const pegaTarefa = async (req, res) => {
+    try {
+        const { id: idTarefa } = req.params;
+        const tarefa = await Tarefa.findOne({ _id: idTarefa })
+
+        if (!tarefa) {
+            return res.status(404).json({ msg: `Nenhuma tarefa com esse id: ${idTarefa}` })
+        }
+        res.status(200).json({ tarefa })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
 const atualizaTarefa = (req, res) => {
