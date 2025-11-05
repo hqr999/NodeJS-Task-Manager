@@ -36,8 +36,17 @@ const atualizaTarefa = (req, res) => {
     res.send('tarefa atualizada')
 }
 
-const deletaTarefa = (req, res) => {
-    res.send('tarefa deletada')
+const deletaTarefa = async (req, res) => {
+    try {
+        const { id: idTarefa } = req.params
+        const tarefa = await Tarefa.findByIdAndDelete({ _id: idTarefa })
+        if (!tarefa) {
+            res.status(404).json({ msg: `Nenhuma tarefa com o id: ${idTarefa}` })
+        }
+        res.status(200).json({ tarefa })
+    } catch (error) {
+        res.status(500).json({ msg: error })
+    }
 }
 
 
