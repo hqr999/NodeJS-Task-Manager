@@ -4,6 +4,7 @@ const tarefas = require('./routes/tarefas')
 const conexaoBD = require('./BD/connection')
 require('dotenv').config()
 const nEncontardo = require('./middleware/nao-encontrado')
+const erroHandlerMiddleware = require('./middleware/error-handler')
 
 const port = 3000
 
@@ -16,6 +17,7 @@ app.use(express.json())
 //Rotas 
 app.use('/api/v1/tarefas',tarefas)
 app.use(nEncontardo)
+app.use(erroHandlerMiddleware)
 
 //Conexãp com o banco de dados 
 const comecaConexao =  async () => {
