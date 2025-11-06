@@ -1,5 +1,6 @@
 const Tarefa = require('../Models/tarefa')
 const asyncWrapper = require('../middleware/async')
+const { createCustomError } = require('../Errors/custom-error')
 
 const pegaTodasTarefas = asyncWrapper(async (req, res) => {
     const tds_tarefas = await Tarefa.find({})
@@ -13,23 +14,23 @@ const criaTarefa = asyncWrapper(async (req, res) => {
 
 })
 
-const pegaTarefa = asyncWrapper(async (req, res) => {
+const pegaTarefa = asyncWrapper(async (req, res, next) => {
     const { id: idTarefa } = req.params;
     const tarefa = await Tarefa.findOne({ _id: idTarefa })
 
     if (!tarefa) {
-        return res.status(404).json({ msg: `Nenhuma tarefa com esse id: ${idTarefa}` })
+        return next(createCustomError(`Nenhuma tarefa com esse id: ${idTarefa}`, 404))
     }
     res.status(200).json({ tarefa })
 })
 
 
 
-const deletaTarefa = asyncWrapper(async (req, res) => {
+const deletaTarefa = asyncWrapper(async (req, res, next) => {
     const { id: idTarefa } = req.params
     const tarefa = await Tarefa.findByIdAndDelete({ _id: idTarefa })
     if (!tarefa) {
-        res.status(404).json({ msg: `Nenhuma tarefa com o id: ${idTarefa}` })
+        return next(createCustomError(`Nenhuma tarefa com o id: ${idTarefa}`, 404))
     }
     res.status(200).json({ tarefa })
 })
